@@ -1,4 +1,5 @@
 name: Prompt Llama
+description: Allows prompting of Llama-2 running on a GH actions runner
 
 on:
   workflow_dispatch:
