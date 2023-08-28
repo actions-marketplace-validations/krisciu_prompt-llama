@@ -1,0 +1,38 @@
+name: Prompt Llama
+
+on:
+  workflow_dispatch:
+    inputs:
+      number_of_tokens:
+        description: "Number of tokens you want the model to output"
+        required: false
+        default: "512"
+      temperature:
+        description: "Hyperparameter that controls randomness of the output text"
+        required: false
+        default: "0.8"
+      repeat_penalty:
+        description: "Hyperparameter that penalizes repeated characters"
+        required: false
+        default: "1.1"
+      prompt:
+        description: "Prompt for the model"
+        required: false
+        default: "Tell me a funny joke!"
+
+jobs:
+  run_command:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/krisciu/freellamas:latest
+    steps:
+      - name: Log Input Variables
+        run: |
+          echo "Number of tokens: ${{ github.event.inputs.number_of_tokens }}"
+          echo "Temperature: ${{ github.event.inputs.temperature }}"
+          echo "Repeat penalty factor: ${{ github.event.inputs.repeat_penalty }}"
+          echo " PROMPT:\n ${{ github.event.inputs.prompt }}"
+      - name: run Llama-2
+        run: |
+          cd /app/llama.cpp
+          ./examples/llama_2_mini.sh -p ${{ github.event.inputs.prompt  }} -n ${{ github.event.inputs.number_of_tokens }} -t ${{ github.event.inputs.temperature }} -r ${{ github.event.inputs.repeat_penalty }}
