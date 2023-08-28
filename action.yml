@@ -1,4 +1,4 @@
-name: Prompt Llama
+name: prompt-llama
 description: Allows prompting of Llama-2 running on a GH actions runner
 
 on:
